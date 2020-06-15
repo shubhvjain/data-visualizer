@@ -5,8 +5,8 @@
                 {{ sc['required']?"*":" " }} </label>
             <div class="col-9">
                 <ng-template [ngIf]="sc.type=='arrayString'">
-                    <tag-input [modelAsStrings]='true' [maxItems]='20' [(ngModel)]="data[sc['name']]">
-                    </tag-input>
+                    <!-- <tag-input [modelAsStrings]='true' [maxItems]='20' [(ngModel)]="data[sc['name']]">
+                    </tag-input> -->
                 </ng-template>
                 <ng-template [ngIf]="sc.type=='boolean'">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1" [checked]="data[ sc['name'] ]"

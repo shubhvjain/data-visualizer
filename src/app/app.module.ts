@@ -7,7 +7,7 @@ import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { SortableModule } from 'ngx-bootstrap/sortable';
 
-import { TagInputModule } from 'ngx-chips';
+// import { TagInputModule } from 'ngx-chips';
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -31,7 +31,7 @@ import { JsonFormComponent } from './json-form/json-form.component';
     AppRoutingModule,
     PaginationModule.forRoot(),
     SortableModule.forRoot(),
-    TagInputModule, 
+    // TagInputModule, 
     Ng2TableModule
   ],
   providers: [],
