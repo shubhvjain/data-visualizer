@@ -1,0 +1,70 @@
+<ng-template [ngIf]="schema.length>0">
+    <div *ngFor="let sc of schema">
+        <div class="form-group row">
+            <label for="text" class="col-6 col-form-label">{{ sc['label']?sc['label']:sc['name']  }}
+                {{ sc['required']?"*":" " }} </label>
+            <div class="col-9">
+                <ng-template [ngIf]="sc.type=='arrayString'">
+                    <tag-input [modelAsStrings]='true' [maxItems]='20' [(ngModel)]="data[sc['name']]">
+                    </tag-input>
+                </ng-template>
+                <ng-template [ngIf]="sc.type=='boolean'">
+                    <input type="checkbox" class="form-check-input" id="exampleCheck1" [checked]="data[ sc['name'] ]"
+                        (change)="data[sc['name'] ]  = ! data[sc['name'] ]">
+                </ng-template>
+
+                <ng-template [ngIf]="sc.type=='string'">
+                    <ng-template [ngIf]="!sc.enum">
+                        <ng-template [ngIf]="sc.format != 'markdown'">
+                            <input [id]="sc['name']" [minLength]="sc['minLength']?sc['minLength']:0"
+                                [maxLength]="sc['maxLength']?sc['maxLength']:1000" [name]="sc['name']"
+                                [type]="sc['format']" [required]="sc['required']?sc['required']:false"
+                                class="form-control" [(ngModel)]="data[sc['name']]">
+                        </ng-template>
+                    </ng-template>
+                    <ng-template [ngIf]="sc.enum">
+                        <select class="form-control" [(ngModel)]="data[sc['name']]">
+                            <option *ngFor="let c of sc.enum" [ngValue]="c">{{c}}</option>
+                        </select>
+                    </ng-template>
+                </ng-template>
+                <ng-template [ngIf]="sc.type=='number'">
+                    <input [id]="sc['name']" [min]="sc['minimum']?sc['minimum']:0" [max]="sc['exclusiveMaximum']"
+                        [name]="sc['name']" [type]="sc['slider']?'range':'number'"
+                        [required]="sc['required']?sc['required']:false" class="form-control"
+                        [(ngModel)]="data[sc['name']]">
+                        <div class="row" *ngIf="sc['slider']==true">
+                            <div class="col-sm text-left">
+                                {{sc['minimum']}}
+                            </div>
+                            <div class="col-sm text-center">
+                                {{data[sc['name']]}}
+                            </div>
+                            <div class="col-sm text-right">
+                                {{sc['exclusiveMaximum']}}
+                            </div>
+                          </div>
+                </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <!-- <span class="text-muted">* Required fields</span> -->
+    <!-- <br>  -->
+    <!-- <br> -->
+    <div *ngIf="valError.errorExists" class="alert alert-danger">
+        Validation errors : 
+        <ol>
+            <li *ngFor="let a of valError.ky">
+                {{a}}
+                <ol>
+                    <li *ngFor="let b of valError.errors[a]">{{b}}</li>
+                </ol>
+            </li>
+        </ol>
+    </div>
+    <button class="btn btn-primary saveBtn" (click)="addNew()"> {{action}} </button>
+</ng-template>
+<ng-template [ngIf]="schema.length==0">
+    <div class="alert alert-info">First create a schema</div>
+</ng-template>

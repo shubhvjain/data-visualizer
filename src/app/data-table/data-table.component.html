@@ -1,0 +1,39 @@
+<div class="card mb-3">
+    <div class="card-body">
+        <h4>Raw data </h4>
+        <ng-table [config]="config" [rows]="rows" [columns]="columns" (tableChanged)="onChangeTable(config)">
+        </ng-table>
+        <div class="row">
+            <div class="col-lg-8">
+                <pagination *ngIf="config.paging" class="pagination-sm" [(ngModel)]="page" [totalItems]="length"
+                    [itemsPerPage]="itemsPerPage" (pageChanged)="onChangeTable(config, $event)"
+                    (numPages)="numPages = $event" [directionLinks]='true' previousText="&lsaquo;" nextText="&rsaquo;">
+                </pagination>
+            </div>
+            <div class="col-lg-4">
+                <div class="form-row align-items-center">
+
+                    <div class="col-auto my-1">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="autoSizingCheck2"
+                                (change)="onChangeTable(config, $event)" [(ngModel)]="config.paging">
+                            <label class="form-check-label" for="autoSizingCheck2">
+                                Paginate
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-auto my-1" *ngIf="config.paging">
+                        <label class="mr-sm-2 sr-only" for="inlineFormCustomSelect">Preference</label>
+                        <select class="custom-select mr-sm-2" id="inlineFormCustomSelect" style="font-size: 10px;"
+                            (change)="modifyItemPage($event.target.value)">
+                            <option *ngFor="let type1 of pageSizes" value="{{type1}}" [selected]="type1==itemsPerPage">
+                                {{type1}} rows </option>
+                        </select>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

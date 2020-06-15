@@ -1,24 +1,87 @@
 <div class="container">
-    <header class="blog-header py-3">
-        <div class="row flex-nowrap justify-content-between align-items-center">
-            <div class="col-4 pt-1">
+    <div class="row">
+        <div class="col-lg-12 offset-lg1-1">
+            <header class="blog-header py-3 d-print-none">
+                <div class="row flex-nowrap justify-content-between align-items-center">
+                    <div class="col-4 pt-1">
+                    </div>
+                    <div class="col-4 text-center">
+                        <a class="blog-header-logo text-dark" href="#">Data visualizer</a>
+                    </div>
+                    <div class="col-4 d-flex justify-content-end align-items-center">
+                    </div>
+                </div>
+            </header>
+            <br>
+            <div class="jumbotron p-4 p-md-1  rounded row d-print-none">
+                <div class="col-8 px-2">
+                    <p class="lead my-3">To get started, choose a data file (JSON or CSV). Then click on the 'Analyze'
+                        button.
+                        The system will then read the file and perform some analysis. After that you will be able to do
+                        various
+                        visualization tasks. </p>
+                </div>
+                <div class="col-4 px-0">
+                    <data-source></data-source>
+                </div>
             </div>
-            <div class="col-4 text-center">
-                <a class="blog-header-logo text-dark" href="#">Data visualizer</a>
+            <ul class="nav justify-content-end d-print-none">
+                <li class="nav-item">
+                    <a class="nav-link text-primary" (click)="showData = !showData"> <span class="fa fa-list"></span>
+                        Table </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-primary" (click)="addNewPlot()"><span class="fa fa-plus"></span> Plot </a>
+                </li>
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="#"><span class="fa fa-download"></span> Download</a>
+                </li> -->
+                <!-- <li class="nav-item">
+                    <a class="nav-link" href="#"><span class="fa fa-print"></span> Print</a>
+                </li> -->
+            </ul>
+            <br>
+            <div *ngIf="showData">
+                <data-table [config]="config" [data]="rows" [columns]="columns"></data-table>
             </div>
-            <div class="col-4 d-flex justify-content-end align-items-center">
+            <div *ngFor="let plot of plots;let i = index">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="d-print-none">
+                                    <div class="form-group">
+                                        <select class="form-control" (change)="modifyPlotType($event.target.value,i)">
+                                            <option *ngFor="let vp of validPlot" value="{{vp.value}}"
+                                                [selected]="vp.value==plot.type">
+                                                {{vp.name}}  </option>
+                                        </select>
+                                    </div>
+
+                                    <div *ngIf="plotGenerator[plot['type']]['formType']['type']=='jsonSchema'">
+                                        <json-form [schema]="plotGenerator[plot['type']]['formType']['schema']" 
+                                        (onAddData)="plotPlot($event,i)"
+                                        [data]="plotGenerator[plot['type']]['formType']['default']"
+                                        ></json-form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-9">
+                                <div id="outer-plot-{{i}}">
+                                    <canvas id="plot-{{i}}" width="400px" height="400px"></canvas>
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </header>
-    <br>
-    <div class="jumbotron p-4 p-md-2  rounded row">
-        <div class="col-8 px-2">
-            <p class="lead my-3">To get started, choose a data file (JSON or CSV). Then click on the 'Analyze' button.
-                The system will then read the file and perform some analysis. After that you will be able to do various
-                visualization tasks. </p>
-        </div>
-        <div class="col-4 px-0">
-            <data-source></data-source>
+
+
+
         </div>
     </div>
+
+
 </div>
