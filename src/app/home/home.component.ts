@@ -14,15 +14,15 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const nos = [1,2,3,4,4.5,2.5,5.5,7,10]
+    const nos = [1, 2, 3, 4, 4.5, 2.5, 5.5, 7, 10]
     for (let index = 0; index < 25; index++) {
       this.rows.push({
         month: months[Math.floor(Math.random() * months.length)],
         rad: nos[Math.floor(Math.random() * nos.length)],
-        a: Math.round(Math.random()*100),
+        a: Math.round(Math.random() * 100),
         b: Math.random().toString(36).substring(7),
         c: Math.random(),
-        d: Math.round(Math.random()*100),
+        d: Math.round(Math.random() * 100),
       })
     }
     this.addNewPlot('lineChart')
@@ -54,9 +54,9 @@ export class HomeComponent implements OnInit {
     { name: 'Scatter plot', value: 'scatterPlot' },
     { name: 'Bubble chart', value: 'bubbleChart' },
     { name: 'Line chart', value: 'lineChart' },
-    { name: 'Time series', value: 'timeSeries' },
-    { name: 'Heatmap', value: 'heatMap' },
-    { name: 'Automatic', value: 'automatic' },
+   // { name: 'Time series', value: 'timeSeries' },
+   // { name: 'Heatmap', value: 'heatMap' },
+   // { name: 'Automatic', value: 'automatic' },
   ]
 
 
@@ -86,7 +86,7 @@ export class HomeComponent implements OnInit {
       Object.keys(count).map(itm => { countVal.push(count[itm]) })
       return { countObj: count, labels: Object.keys(count), values: countVal }
     },
-    getNColors: (n) =>{
+    getNColors: (n) => {
       let random_rgba = () => {
         var num = Math.round(0xffffff * Math.random());
         var r = num >> 16;
@@ -101,33 +101,33 @@ export class HomeComponent implements OnInit {
       console.log(cols)
       return cols;
     },
-    cordPoints(data,xField,yField,options={}){
+    cordPoints(data, xField, yField, options = {}) {
       // valid options : sorted, sortField
       let pts = []
-      data.map(itm=>{
-        pts.push({x:itm[xField],y:itm[yField]})
+      data.map(itm => {
+        pts.push({ x: itm[xField], y: itm[yField] })
       })
-      if(options['sorted']){
-        pts = pts.sort(function(a, b){return a[options['sortField']] - b[options['sortField']]});
+      if (options['sorted']) {
+        pts = pts.sort(function (a, b) { return a[options['sortField']] - b[options['sortField']] });
       }
       return pts
     },
-    pointArray(data,field,options={}){
+    pointArray(data, field, options = {}) {
       let pts = []
-      data.map(itm=>{pts.push(itm[field])})
-      if(options['sorted']){
-        if(!options['sortField']){
-          pts = pts.sort(function(a, b){return a - b});
-        }else{
-          pts = pts.sort(function(a, b){return a[options['sortField']] - b[options['sortField']]});
+      data.map(itm => { pts.push(itm[field]) })
+      if (options['sorted']) {
+        if (!options['sortField']) {
+          pts = pts.sort(function (a, b) { return a - b });
+        } else {
+          pts = pts.sort(function (a, b) { return a[options['sortField']] - b[options['sortField']] });
         }
       }
       return pts
     },
-    bubblePoints(data,xField,yField,rField){
+    bubblePoints(data, xField, yField, rField) {
       let pts = []
-      data.map(itm=>{
-        pts.push({x:itm[xField],y:itm[yField],r: itm[rField]})
+      data.map(itm => {
+        pts.push({ x: itm[xField], y: itm[yField], r: itm[rField] })
       })
       return pts
     }
@@ -157,14 +157,14 @@ export class HomeComponent implements OnInit {
               backgroundColor: this.utils.getNColors(freq.values.length)
             }]
           },
-          options: {scales: {yAxes: [{ticks: {beginAtZero: true}}] }}
+          options: { scales: { yAxes: [{ ticks: { beginAtZero: true } }] } }
         });
       },
-      init: () => {return {catField: '',}},
+      init: () => { return { catField: '', } },
       formType: {
         type: 'jsonSchema',
-        schema: [{"name": "catField","label": "Category field","type": "string",},],
-        default: {"catField": "month"  }
+        schema: [{ "name": "catField", "label": "Category field", "type": "string", },],
+        default: { "catField": "month" }
       }
     },
     pieChart: {
@@ -184,17 +184,17 @@ export class HomeComponent implements OnInit {
           }
         });
       },
-      init: () => {return {catField: '',}},
+      init: () => { return { catField: '', } },
       formType: {
         type: 'jsonSchema',
-        schema: [ {"name": "catField","label": "Category field","type": "string",}  ],
-        default: {"catField": "month"}
+        schema: [{ "name": "catField", "label": "Category field", "type": "string", }],
+        default: { "catField": "month" }
       }
     },
     scatterPlot: {
       generate: (options) => {
         // let freq = this.utils.getFreq(options['data'], options['catField'])
-        let points = this.utils.cordPoints(options['data'],options['xField'],options['yField'])
+        let points = this.utils.cordPoints(options['data'], options['xField'], options['yField'])
         this.initOutDOM(options['cssID'])
         let docId2 = document.getElementById(options['cssID'])
         var ctx: any = docId2['getContext']('2d');
@@ -203,26 +203,26 @@ export class HomeComponent implements OnInit {
           data: {
             datasets: [{
               data: points,
-              label:options['xField']+" vs. "+ options['yField'],
-              backgroundColor:"rgba(50,50,50,1)"
+              label: options['xField'] + " vs. " + options['yField'],
+              backgroundColor: "rgba(50,50,50,1)"
             }],
           }
         });
       },
-      init: () => {return {xField: '',yField:''}},
+      init: () => { return { xField: '', yField: '' } },
       formType: {
         type: 'jsonSchema',
-        schema: [ 
-          {"name": "xField","label": "x-axis","type": "string"},
-          {"name": "yField","label": "y-axis","type": "string"}
+        schema: [
+          { "name": "xField", "label": "x-axis", "type": "string" },
+          { "name": "yField", "label": "y-axis", "type": "string" }
         ],
-        default: {"xField": "c","yField":"a"}
+        default: { "xField": "c", "yField": "a" }
       }
     },
-    bubbleChart:{
+    bubbleChart: {
       generate: (options) => {
         // let freq = this.utils.getFreq(options['data'], options['catField'])
-        let points = this.utils.bubblePoints(options['data'],options['xField'],options['yField'],options['rField'])
+        let points = this.utils.bubblePoints(options['data'], options['xField'], options['yField'], options['rField'])
         this.initOutDOM(options['cssID'])
         let docId2 = document.getElementById(options['cssID'])
         var ctx: any = docId2['getContext']('2d');
@@ -232,28 +232,28 @@ export class HomeComponent implements OnInit {
           data: {
             datasets: [{
               data: points,
-              label:options['xField']+" vs. "+ options['yField'],
-              backgroundColor:"rgba(50,50,50,1)"
+              label: options['xField'] + " vs. " + options['yField'],
+              backgroundColor: "rgba(50,50,50,1)"
             }],
           }
         });
       },
-      init: () => {return {xField: '',yField:'',rField:''}},
+      init: () => { return { xField: '', yField: '', rField: '' } },
       formType: {
         type: 'jsonSchema',
-        schema: [ 
-          {"name": "xField","label": "x-axis","type": "string"},
-          {"name": "yField","label": "y-axis","type": "string"},
-          {"name": "rField","label": "radius","type": "string"},
+        schema: [
+          { "name": "xField", "label": "x-axis", "type": "string" },
+          { "name": "yField", "label": "y-axis", "type": "string" },
+          { "name": "rField", "label": "radius", "type": "string" },
         ],
-        default: {"xField": "c","yField":"a","rField":'rad'}
+        default: { "xField": "c", "yField": "a", "rField": 'rad' }
       }
     },
     lineChart: {
       generate: (options) => {
         // let freq = this.utils.getFreq(options['data'], options['catField'])
-        let points = this.utils.pointArray(options['data'],options['yField'])
-        let lbs = this.utils.pointArray(options['data'],options['xField'])
+        let points = this.utils.pointArray(options['data'], options['yField'])
+        let lbs = this.utils.pointArray(options['data'], options['xField'])
         console.log(lbs)
         this.initOutDOM(options['cssID'])
         let docId2 = document.getElementById(options['cssID'])
@@ -262,25 +262,25 @@ export class HomeComponent implements OnInit {
         window['Chart'].defaults.global.elements.line.fill = false;
         var myChart = new window['Chart'](ctx, {
           type: 'line',
-          data: 
+          data:
           {
-            labels:lbs,
+            labels: lbs,
             datasets: [{
               data: points,
               label: options['yField'],
-              backgroundColor:"rgba(50,50,50,1)"
+              backgroundColor: "rgba(50,50,50,1)"
             }],
           }
         });
       },
-      init: () => {return {xField: '',yField:''}},
+      init: () => { return { xField: '', yField: '' } },
       formType: {
         type: 'jsonSchema',
-        schema: [ 
-          {"name": "yField","label": "y-Field","type": "string"},
-          {"name": "xField","label": "x-Field","type": "string"}
+        schema: [
+          { "name": "yField", "label": "y-Field", "type": "string" },
+          { "name": "xField", "label": "x-Field", "type": "string" }
         ],
-        default: {"yField":"a","xField":"month"}
+        default: { "yField": "a", "xField": "month" }
       }
     },
     timeSeries: {
@@ -297,12 +297,9 @@ export class HomeComponent implements OnInit {
   }
   addNewPlot(newType = 'barChart') {
     this.plots.push(this.newPlotObj(newType))
-    console.log(this.plots)
+    // console.log(this.plots)
   }
 
-  modifyPlotType(newType, i) {
-    // this.plots[i] =   //  data.list[index] = JSON.parse(JSON.stringify(currObj))
-  }
 
   plotPlot(data, inx) {
     console.log(data['data'])
@@ -314,7 +311,13 @@ export class HomeComponent implements OnInit {
     this.plotGenerator[a['type']]['generate'](opt)
   }
 
-  deletePlot(inx){
-    this.plots.splice(inx,1)
+  deletePlot(inx) {
+    this.plots.splice(inx, 1)
+  }
+  modifyPlotType(newType, index) {
+    // console.log(newType, index)
+    let newBlankObj = this.newPlotObj(newType)
+    this.plots[index] = newBlankObj
+    this.initOutDOM("plot-"+index)
   }
 }
