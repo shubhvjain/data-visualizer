@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
   config: any = {
     paging: true,
     sorting: { columns: ['a', 'b'] },
-    className: ['table-responsi1ve', 't1able']
+    className: ['table-responsive', 'table']
   };
 
   plots = []
