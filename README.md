@@ -1,5 +1,7 @@
 # DataViz
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/44e629dc-abc2-41ec-9eec-e5b642d5b249/deploy-status)](https://app.netlify.com/sites/datavisualizer/deploys)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.0.3.
 
 ## Development server
