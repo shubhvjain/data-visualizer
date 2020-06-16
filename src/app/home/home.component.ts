@@ -25,10 +25,10 @@ export class HomeComponent implements OnInit {
         d: Math.round(Math.random() * 100),
       })
     }
-    this.addNewPlot('lineChart')
+    // this.addNewPlot('lineChart')
     this.addNewPlot()
-    this.addNewPlot('scatterPlot')
-    this.addNewPlot('bubbleChart')
+    //this.addNewPlot('scatterPlot')
+    // this.addNewPlot('bubbleChart')
   }
 
   columns = [

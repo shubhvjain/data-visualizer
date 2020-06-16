@@ -6,6 +6,8 @@ import { FormsModule } from '@angular/forms';
 import { Ng2TableModule } from 'ng2-table/ng2-table';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { SortableModule } from 'ngx-bootstrap/sortable';
+import { ModalModule } from 'ngx-bootstrap/modal';
+import { TabsModule } from 'ngx-bootstrap/tabs';
 
 // import { TagInputModule } from 'ngx-chips';
 
@@ -31,6 +33,8 @@ import { JsonFormComponent } from './json-form/json-form.component';
     AppRoutingModule,
     PaginationModule.forRoot(),
     SortableModule.forRoot(),
+    ModalModule.forRoot(),
+    TabsModule.forRoot(),
     // TagInputModule, 
     Ng2TableModule
   ],
