@@ -12,6 +12,13 @@
                     </div>
                 </div>
             </header>
+            <div class="nav-scroller py-1 mb-2">
+                <nav class="nav d-flex justify-content-left">
+                  <a class="p-2 text-muted" (click)="showData = !showData" > <span class="fa fa-list"></span>   Table</a>
+                  <a class="p-2 text-muted" (click)="addNewPlot()"><span class="fa fa-plus"></span> Plot</a>
+               
+                </nav>
+              </div>
             <br>
             <div class="jumbotron p-2 p-md-1  rounded d-print-none">
                 <div class="row">
@@ -28,7 +35,7 @@
                 </div>
                 
             </div>
-            <ul class="nav justify-content-end d-print-none">
+            <!-- <ul class="nav justify-content-end d-print-none">
                 <li class="nav-item">
                     <a class="nav-link text-primary" (click)="showData = !showData"> <span class="fa fa-list"></span>
                         Table </a>
@@ -36,14 +43,8 @@
                 <li class="nav-item">
                     <a class="nav-link text-primary" (click)="addNewPlot()"><span class="fa fa-plus"></span> Plot </a>
                 </li>
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="#"><span class="fa fa-download"></span> Download</a>
-                </li> -->
-                <!-- <li class="nav-item">
-                    <a class="nav-link" href="#"><span class="fa fa-print"></span> Print</a>
-                </li> -->
-            </ul>
-            <br>
+            </ul> -->
+            <!-- <br> -->
             <div *ngIf="showData">
                 <data-table [config]="config" [data]="rows" [columns]="columns"></data-table>
             </div>
@@ -53,14 +54,18 @@
                         <div class="row">
                             <div class="col-lg-3">
                                 <div class="d-print-none">
-                                    <div class="form-group">
-                                        <select class="form-control" (change)="modifyPlotType($event.target.value,i)">
-                                            <option *ngFor="let vp of validPlot" value="{{vp.value}}"
-                                                [selected]="vp.value==plot.type">
-                                                {{vp.name}}  </option>
-                                        </select>
-                                    </div>
 
+                                    <div class="form-inline">
+                                        <div class="form-group mb-2">
+                                            <select class="form-control" (change)="modifyPlotType($event.target.value,i)">
+                                                <option *ngFor="let vp of validPlot" value="{{vp.value}}"
+                                                    [selected]="vp.value==plot.type">
+                                                    {{vp.name}}  </option>
+                                            </select>
+                                        </div>
+                                        
+                                        <button class="btn btn-sm btn-light mx-2 mb-2" (click)="deletePlot(i)">  <span class="fa fa-trash text-danger"></span> </button>
+                                    </div>
                                     <div *ngIf="plotGenerator[plot['type']]['formType']['type']=='jsonSchema'">
                                         <json-form [schema]="plotGenerator[plot['type']]['formType']['schema']" 
                                         (onAddData)="plotPlot($event,i)"

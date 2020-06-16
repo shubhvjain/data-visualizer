@@ -313,4 +313,8 @@ export class HomeComponent implements OnInit {
     opt['cssID'] = "plot-" + inx;
     this.plotGenerator[a['type']]['generate'](opt)
   }
+
+  deletePlot(inx){
+    this.plots.splice(inx,1)
+  }
 }
