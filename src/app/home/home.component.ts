@@ -14,18 +14,18 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
 
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const nos = [1,2,3,4,4.5,2.5,5.5,7,10,16]
-    for (let index = 0; index < 100; index++) {
+    const nos = [1,2,3,4,4.5,2.5,5.5,7,10]
+    for (let index = 0; index < 25; index++) {
       this.rows.push({
         month: months[Math.floor(Math.random() * months.length)],
-        rad: nos[Math.floor(Math.random() * months.length)],
+        rad: nos[Math.floor(Math.random() * nos.length)],
         a: Math.round(Math.random()*100),
         b: Math.random().toString(36).substring(7),
         c: Math.random(),
         d: Math.round(Math.random()*100),
       })
     }
-    this.addNewPlot('pieChart')
+    this.addNewPlot('lineChart')
     this.addNewPlot()
     this.addNewPlot('scatterPlot')
     this.addNewPlot('bubbleChart')
@@ -101,11 +101,27 @@ export class HomeComponent implements OnInit {
       console.log(cols)
       return cols;
     },
-    cordPoints(data,xField,yField){
+    cordPoints(data,xField,yField,options={}){
+      // valid options : sorted, sortField
       let pts = []
       data.map(itm=>{
         pts.push({x:itm[xField],y:itm[yField]})
       })
+      if(options['sorted']){
+        pts = pts.sort(function(a, b){return a[options['sortField']] - b[options['sortField']]});
+      }
+      return pts
+    },
+    pointArray(data,field,options={}){
+      let pts = []
+      data.map(itm=>{pts.push(itm[field])})
+      if(options['sorted']){
+        if(!options['sortField']){
+          pts = pts.sort(function(a, b){return a - b});
+        }else{
+          pts = pts.sort(function(a, b){return a[options['sortField']] - b[options['sortField']]});
+        }
+      }
       return pts
     },
     bubblePoints(data,xField,yField,rField){
@@ -234,7 +250,38 @@ export class HomeComponent implements OnInit {
       }
     },
     lineChart: {
-      
+      generate: (options) => {
+        // let freq = this.utils.getFreq(options['data'], options['catField'])
+        let points = this.utils.pointArray(options['data'],options['yField'])
+        let lbs = this.utils.pointArray(options['data'],options['xField'])
+        console.log(lbs)
+        this.initOutDOM(options['cssID'])
+        let docId2 = document.getElementById(options['cssID'])
+        var ctx: any = docId2['getContext']('2d');
+        console.log(points)
+        window['Chart'].defaults.global.elements.line.fill = false;
+        var myChart = new window['Chart'](ctx, {
+          type: 'line',
+          data: 
+          {
+            labels:lbs,
+            datasets: [{
+              data: points,
+              label: options['yField'],
+              backgroundColor:"rgba(50,50,50,1)"
+            }],
+          }
+        });
+      },
+      init: () => {return {xField: '',yField:''}},
+      formType: {
+        type: 'jsonSchema',
+        schema: [ 
+          {"name": "yField","label": "y-Field","type": "string"},
+          {"name": "xField","label": "x-Field","type": "string"}
+        ],
+        default: {"yField":"a","xField":"month"}
+      }
     },
     timeSeries: {
 
@@ -266,7 +313,4 @@ export class HomeComponent implements OnInit {
     opt['cssID'] = "plot-" + inx;
     this.plotGenerator[a['type']]['generate'](opt)
   }
-
-
-
 }
